@@ -1,0 +1,6 @@
+ .p-datepicker-year {
+     color: #c74747;
+     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+     font-weight: 600;
+     padding: 0.5rem;
+ }
