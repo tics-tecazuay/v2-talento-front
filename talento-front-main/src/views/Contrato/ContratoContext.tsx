@@ -137,7 +137,7 @@ function ContratoContext() {
     }
   };
 
-  const decodeBase64 = (base64Data: string, cedula: string) => {
+  const decodeBase64 = (base64Data: string, apellidoPaterno: string, primerNombre: String) => {
     try {
       // Eliminar encabezados o metadatos de la cadena base64
       const base64WithoutHeader = base64Data.replace(/^data:.*,/, "");
@@ -154,7 +154,7 @@ function ContratoContext() {
 
       const link = document.createElement("a");
       link.href = fileUrl;
-      link.download =cedula+"_"+"contrato.pdf";
+      link.download =apellidoPaterno+"_"+primerNombre+"_"+"CONTRATO.pdf";
       link.click();
       swal({
         title: "Contrato",
@@ -801,7 +801,7 @@ function ContratoContext() {
                               personaService.getAllByPersona(idPersona).then((responsePersona)=> {
                               setItems(responsePersona);
                               {items.map((per) => (
-                                  decodeBase64(response.toString(),per.cedula)
+                                  decodeBase64(response.toString(),per.apellido_paterno,per.primer_nombre)
                               ))}
 
                               })
