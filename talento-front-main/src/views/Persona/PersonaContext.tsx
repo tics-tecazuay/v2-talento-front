@@ -166,7 +166,7 @@ const Persona = () => {
   };
 
 
-  const decodeBase64 = (base64Data: string) => {
+  const decodeBase64 = (base64Data: string, tipo: string, cedula:string) => {
     try {
       const base64WithoutHeader = base64Data.replace(/^data:.*,/, "");
       const decodedData = atob(base64WithoutHeader);
@@ -178,7 +178,7 @@ const Persona = () => {
       const fileUrl = URL.createObjectURL(byteArray);
       const link = document.createElement("a");
       link.href = fileUrl;
-      link.download = "Evidencia.pdf";
+      link.download = cedula+"_"+tipo+".pdf";
       link.click();
       swal({
         title: "Evidencia",
@@ -619,7 +619,7 @@ const Persona = () => {
                               .then((response) => {
                                 if(response && response.trim() !== '') {
                                   console.log("resultado: "+response.toString());
-                                  decodeBase64(response);
+                                  decodeBase64(response,'cv_socioempleado',per.cedula);
                                 } else {
                                   swal({
                                     title: "Evidencia",
@@ -638,7 +638,6 @@ const Persona = () => {
                       />
                 </td>
                 <td>
-
                       <Button
                           type="button"
                           className=""
@@ -654,7 +653,7 @@ const Persona = () => {
                               .then((response) => {
                                 if(response && response.trim() !== '') {
                                   console.log("resultado: "+response.toString());
-                                  decodeBase64(response);
+                                  decodeBase64(response,'mecanizado',per.cedula);
                                 } else {
                                   swal({
                                     title: "Evidencia",
@@ -673,7 +672,6 @@ const Persona = () => {
                       />
                 </td>
                 <td>
-
                       <Button
                           type="button"
                           className=""
@@ -689,7 +687,7 @@ const Persona = () => {
                               .then((response) => {
                                 if(response && response.trim() !== '') {
                                   console.log("resultado: "+response.toString());
-                                  decodeBase64(response);
+                                  decodeBase64(response,'documentos',per.cedula);
                                 } else {
                                   swal({
                                     title: "Evidencia",

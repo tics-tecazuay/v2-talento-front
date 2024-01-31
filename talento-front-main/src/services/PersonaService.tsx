@@ -42,10 +42,12 @@ export class PersonaService {
   }
 
   // Obtener todos por persona
-  getAllByPersona(id: number) {
+  getAllByPersona(id: any) {
     return axios
       .get(`${this.baseUrl}readPersona/${id}`, this.getHeaders())
-      .then((res) => res.data);
+      .then((res) => res.data
+      );
+
   }
 
   // Obtener resumen por ID

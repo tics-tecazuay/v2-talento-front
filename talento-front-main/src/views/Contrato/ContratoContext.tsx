@@ -18,7 +18,9 @@ import {
   IHeaderItem,
 } from "../../interfaces/Secondary/IExcelReportParams";
 import app from "../../App";
-
+import {PersonaService} from "../../services/PersonaService";
+import {IPersona} from "../../interfaces/Primary/IPersona";
+const apiService = new PersonaService();
 function ContratoContext() {
   const userData = sessionStorage.getItem("user");
   const userObj = JSON.parse(userData || "{}");
@@ -27,7 +29,7 @@ function ContratoContext() {
 
   const [excelReportData, setExcelReportData] =
     useState<IExcelReportParams | null>(null);
-
+  const [items, setItems] = useState<IPersona[]>([]);
   const [contra1, setcontra1] = useState<IContratoData[]>([]);
   const [formData, setFormData] = useState<IContratoData>({
     id_contrato: 0,
@@ -49,6 +51,7 @@ function ContratoContext() {
   const [editMode, setEditMode] = useState(false);
   const [editItemId, setEditItemId] = useState<number | undefined>(undefined);
   const contratService = new ContratoService();
+  const personaService=new PersonaService();
   const tiempoDedicacionOptions = [
     { label: "Tiempo Completo", value: "Tiempo Completo" },
     { label: "Medio Tiempo", value: "Medio Tiempo" },
@@ -134,7 +137,7 @@ function ContratoContext() {
     }
   };
 
-  const decodeBase64 = (base64Data: string) => {
+  const decodeBase64 = (base64Data: string, cedula: string) => {
     try {
       // Eliminar encabezados o metadatos de la cadena base64
       const base64WithoutHeader = base64Data.replace(/^data:.*,/, "");
@@ -151,7 +154,7 @@ function ContratoContext() {
 
       const link = document.createElement("a");
       link.href = fileUrl;
-      link.download = "archivoCon.pdf";
+      link.download =cedula+"_"+"contrato.pdf";
       link.click();
       swal({
         title: "Contrato",
@@ -781,7 +784,6 @@ function ContratoContext() {
                   />
                 </td>
                 <td>
-
                     <Button
                       type="button"
                       className=""
@@ -796,8 +798,14 @@ function ContratoContext() {
                       onClick={() =>contratService.getByEvidencia(contrato.id_contrato)
                           .then((response) => {
                             if(response && response.trim() !== '') {
-                              console.log("resultado: "+response.toString());
-                              decodeBase64(response);
+                              personaService.getAllByPersona(idPersona).then((responsePersona)=> {
+                              setItems(responsePersona);
+                              {items.map((per) => (
+                                  decodeBase64(response.toString(),per.cedula)
+                              ))}
+
+                              })
+
                             } else {
                               swal({
                                 title: "Evidencia",
@@ -811,7 +819,6 @@ function ContratoContext() {
                           .catch((error) => {
                             console.error("Error al obtener datos:", error);
                           })
-
                       }
                     />
 

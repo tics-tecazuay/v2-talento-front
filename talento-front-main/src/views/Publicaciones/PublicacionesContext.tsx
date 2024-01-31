@@ -159,7 +159,7 @@ function PublicacionesContext() {
 
       const link = document.createElement("a");
       link.href = fileUrl;
-      link.download = "archivoCon.pdf";
+      link.download =".pdf";
       link.click();
       swal({
         title: "Publicación",

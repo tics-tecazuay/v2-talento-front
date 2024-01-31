@@ -683,7 +683,6 @@ function InstruccionFormalContext() {
                   />
                 </td>
                 <td>
-
                     <Button
                       type="button"
                       className=""
